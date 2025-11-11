@@ -1,0 +1,43 @@
+[project]
+name = "brobrain"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.4.1",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.4",
+    "requests>=2.32.5",
+    "sentence-transformers>=5.1.2",
+]
+
+[tool.setuptools.packages.find]
+include = ["brobrain*"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.1.0",
+]
+
+# PyTorch indexes
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+# PyTorch sources with platform-specific configuration
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
+]
+torchvision = [
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
+]
