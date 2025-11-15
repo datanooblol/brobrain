@@ -22,8 +22,19 @@ class DuckEpisode(DuckBase):
             episode_ids JSON DEFAULT NULL,
             session_id VARCHAR DEFAULT NULL,
             level VARCHAR CHECK (level IN ('conversations', 'episodes')) DEFAULT 'conversations',
+            is_active BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """
         self.execute(query, None)
+
+    def vector_search(self, vector: list[float], limit:int=5):
+        query = f"""
+        SELECT * FROM {self.table_name} ORDER BY array_distance(vector, {vector}::FLOAT[{self.vector_size}]) LIMIT {limit};
+        """.strip()
+        records = self.execute(query, None)
+        import json
+        records['conversation_ids'] = records['conversation_ids'].apply(json.loads)
+        records['vector'] = records['vector'].apply(lambda x:x.tolist())
+        return self._df_to_models(records)

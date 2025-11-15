@@ -12,3 +12,4 @@ class Episode(BaseBrain):
     episode_ids:Optional[List[str]] = None  # For tracking parent episodes when summarizing
     session_id:Optional[str] = None
     level:EpisodeLevel = EpisodeLevel.CONVERSATIONS
+    is_active:bool = True  # Only active episodes used as context

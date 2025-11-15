@@ -18,7 +18,7 @@ class DuckBase(BaseMemory):
     def _df_to_models(self, df):
         models = []
         for _, row in df.iterrows():
-            data = row.drop(['created_at', 'updated_at']).to_dict()
+            data = row.to_dict()
             models.append(self.model_class(**data))
         return models
     
