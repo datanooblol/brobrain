@@ -1,0 +1,18 @@
+from abc import ABC, abstractmethod
+from typing import Any
+
+class BaseMemory(ABC):
+    @abstractmethod
+    def execute(self, *args, **kwargs)-> Any|None: pass
+
+    @abstractmethod
+    def create(self, *args, **kwargs)-> Any|None: pass
+
+    @abstractmethod
+    def read(self, *args, **kwargs)-> Any|None: pass
+
+    @abstractmethod
+    def update(self, *args, **kwargs)-> Any|None: pass
+
+    @abstractmethod
+    def delete(self, *args, **kwargs)-> Any|None: pass
